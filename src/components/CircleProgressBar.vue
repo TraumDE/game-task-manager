@@ -1,8 +1,21 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
+  ? Acc[number]
+  : Enumerate<N, [...Acc, Acc['length']]>
+
+type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>, Enumerate<F>>
+
+interface Props {
+  level: number
+  filled: IntRange<0, 101>
+}
+
+const props = defineProps<Props>()
+</script>
 
 <template>
   <div class="progress-bar">
-    <span class="progress-bar__number">66 Ур.</span>
+    <span class="progress-bar__number">{{ props.level }} Ур.</span>
 
     <svg
       class="progress-bar__svg"
@@ -10,7 +23,14 @@
       version="1.1"
       viewBox="0 0 160 160"
     >
-      <circle class="progress-bar__circle" cx="80" cy="80" r="70" stroke-linecap="round" />
+      <circle
+        :style="{ 'stroke-dashoffset': ((100 - filled) * 450) / 100 }"
+        class="progress-bar__circle"
+        cx="80"
+        cy="80"
+        r="70"
+        stroke-linecap="round"
+      />
     </svg>
   </div>
 </template>
@@ -44,14 +64,8 @@
     stroke: var(--pico-primary);
     stroke-width: 20px;
     stroke-dasharray: 450;
-    stroke-dashoffset: 450;
-    animation: anim 2s ease-in-out forwards;
-
-    @keyframes anim {
-      100% {
-        stroke-dashoffset: 0;
-      }
-    }
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 2s ease-in-out;
   }
 }
 </style>
