@@ -9,6 +9,7 @@ import AddTaskIcon from './icons/AddTaskIcon.vue'
 <style lang="scss" scoped>
 .add-task-button {
   padding: 12px;
+
   &__icon {
     width: 24px;
     aspect-ratio: 1/1;

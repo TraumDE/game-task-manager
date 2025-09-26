@@ -1,16 +1,28 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
+import type { FormData } from '@/types'
+
 interface Emits {
   (e: 'open', isOpen: boolean): void
+  (e: 'submit', formData: FormData): void
 }
+
 interface Props {
   isOpen: boolean
 }
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
+const formData = ref<FormData>({ text: '' })
 
 const handleOpen = (isOpen: boolean): void => {
   emit('open', isOpen)
+}
+
+const handleSubmit = (): void => {
+  if (!formData.value) return
+  formData.value.text = ''
+  emit('submit', formData.value)
 }
 </script>
 
@@ -33,12 +45,13 @@ const handleOpen = (isOpen: boolean): void => {
               placeholder="Текс задачи до 60 символов"
               autocomplete="false"
               aria-describedby="symbols-write"
+              v-model="formData.text"
             />
             <small id="symbols-write">0/60 символов</small>
           </label>
         </fieldset>
         <fieldset>
-          <button @click.prevent="" type="submit">Добавить</button>
+          <button @click.prevent="handleSubmit" type="submit">Добавить</button>
 
           <button @click="handleOpen(false)" type="reset">Отмена</button>
         </fieldset>
@@ -47,8 +60,4 @@ const handleOpen = (isOpen: boolean): void => {
   </dialog>
 </template>
 
-<style lang="scss" scoped>
-button[type='reset'] {
-  width: 100%;
-}
-</style>
+<style lang="scss" scoped></style>
