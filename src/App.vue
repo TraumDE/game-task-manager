@@ -19,8 +19,6 @@ import HelloWorld from './components/HelloWorld.vue'
 </template>
 
 <style lang="scss">
-@use '@/assets/styles/helpers' as *;
-
 header {
   line-height: 1.5;
   max-height: 100vh;

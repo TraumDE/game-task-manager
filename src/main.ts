@@ -1,4 +1,4 @@
-import './assets/styles/main.scss'
+import '@picocss/pico/css/pico.min.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
