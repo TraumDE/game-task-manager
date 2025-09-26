@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import CyrcleProgressBar from './components/CyrcleProgressBar.vue'
+import CircleProgressBar from './components/CircleProgressBar.vue'
 </script>
 
 <template>
   <main>
-    <CyrcleProgressBar />
+    <CircleProgressBar />
     <h1>Hello world!</h1>
     <p>dsasadas</p>
   </main>
