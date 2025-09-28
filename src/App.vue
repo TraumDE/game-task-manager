@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import AddTaskButton from './components/AddTaskButton.vue'
 import AddTaskModal from './components/AddTaskModal.vue'
@@ -16,6 +16,17 @@ const tasksList = ref<Task[]>([])
 const isConfirmPopupOpen = ref<boolean>(false)
 const confirmPopupData = ref<PopupData>({ title: '', text: '' })
 const taskModalRef = ref<InstanceType<typeof AddTaskModal> | null>(null)
+
+const savedTasks = localStorage.getItem('tasks')
+if (savedTasks) tasksList.value = JSON.parse(savedTasks)
+
+watch(
+  tasksList,
+  (newTasks) => {
+    localStorage.setItem('tasks', JSON.stringify(newTasks))
+  },
+  { deep: true },
+)
 
 let currentTaskId = 0
 
@@ -59,6 +70,10 @@ const handleAddTask = (formData: FormData): void => {
     isCompleted: false,
   })
 }
+
+const handleTaskDelete = (taskId: number): void => {
+  tasksList.value = tasksList.value.filter((task) => task.id !== taskId)
+}
 </script>
 
 <template>
@@ -75,6 +90,7 @@ const handleAddTask = (formData: FormData): void => {
       :key="task.id"
       :text="task.text"
       :is-completed="task.isCompleted"
+      @complete-task="handleTaskDelete(task.id)"
     />
   </main>
   <AddTaskButton class="add-task-button" @click="handleTaskModalOpen(true)" />
