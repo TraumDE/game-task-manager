@@ -19,7 +19,7 @@ const confirmPopupData = ref<PopupData>({ title: '', text: '' })
 const taskModalRef = ref<InstanceType<typeof AddTaskModal> | null>(null)
 const currentXp = ref<number>(0)
 const currentMaxXp = ref<number>(20)
-const xpFilledPercentage = ref<IntRange<0, 101>>(60)
+const xpFilledPercentage = ref<IntRange<0, 101>>(30)
 
 const savedTasks = localStorage.getItem('tasks')
 if (savedTasks) tasksList.value = JSON.parse(savedTasks)
