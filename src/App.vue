@@ -9,13 +9,17 @@ import VerifyModal from './components/ConfirmPopup.vue'
 
 import type { Task } from './types'
 import type { FormData } from './types'
-import type { PopupData } from './types/popupData'
+import type { PopupData } from './types'
+import type { IntRange } from './types'
 
 const isTaskModalOpen = ref<boolean>(false)
 const tasksList = ref<Task[]>([])
 const isConfirmPopupOpen = ref<boolean>(false)
 const confirmPopupData = ref<PopupData>({ title: '', text: '' })
 const taskModalRef = ref<InstanceType<typeof AddTaskModal> | null>(null)
+const currentXp = ref<number>(0)
+const currentMaxXp = ref<number>(20)
+const xpFilledPercentage = ref<IntRange<0, 101>>(60)
 
 const savedTasks = localStorage.getItem('tasks')
 if (savedTasks) tasksList.value = JSON.parse(savedTasks)
@@ -78,10 +82,10 @@ const handleTaskDelete = (taskId: number): void => {
 
 <template>
   <header class="container header">
-    <CircleProgressBar :level="2" :filled="80" />
+    <CircleProgressBar :level="2" :filled="xpFilledPercentage" />
     <hgroup>
       <h1>Добро пожаловать</h1>
-      <p>Текущий опыт: 18 / 20</p>
+      <p>Текущий опыт: {{ currentXp }} / {{ currentMaxXp }}</p>
     </hgroup>
   </header>
   <main class="container">
